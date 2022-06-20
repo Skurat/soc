@@ -11,10 +11,10 @@ elif ! grep -Pq "([0-9]{1,3}\.){3}[0-9]{1,3}" $1; then
 fi
 
 ### Declare variables
-PATH_TO_SCRIPT="/home/silent4s/hack/soc/external_scan"
+PATH_TO_SCRIPT=$(pwd)
 TARGETS_IPS=$(cat $1)
-BOT_TOKEN="871783617:AAFcIkJ-Yytvq7IVxQkBbKAKPdDGoarve7U"
-CHAT_ID="300576657"
+BOT_TOKEN=$(cat .tg_creds | grep -oP "TOKEN\:\K.*")
+CHAT_ID=$(cat .tg_creds | grep -oP "CHAT_ID\:\K.*")
 date=`date "+%F %H:%M"`
 TARGET_FILE="$1"
 ROOT_OF_SCAN_RESULTS="$PATH_TO_SCRIPT/scan_results"
@@ -92,17 +92,17 @@ function save_ports_to_file (){
 for ip in $TARGETS_IPS
 do
     echo -e "$ip"
-    main $ip "1" "1-10000"
-    sleep 5
-    main $ip "2" "10001-20000"
-    sleep 5
-    main $ip "3" "20001-30000"
-    sleep 5
-    main $ip "4" "30001-40000"
-    sleep 5
-    main $ip "5" "40001-50000"
-    sleep 5
-    main $ip "6" "50001-65535"
+    main $ip "1" "1-65535"
+    sleep 1
+#    main $ip "2" "10001-20000"
+#    sleep 5
+#    main $ip "3" "20001-30000"
+#    sleep 5
+#    main $ip "4" "30001-40000"
+#    sleep 5
+#    main $ip "5" "40001-50000"
+#    sleep 5
+#    main $ip "6" "50001-65535"
 done    
 send_message
 save_ports_to_file
